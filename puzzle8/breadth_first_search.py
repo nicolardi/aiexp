@@ -2,10 +2,17 @@
 8-Puzzle 
 '''
 
+
+
 from random import randrange, shuffle
 import copy
+from tree import Tree
 
-puzzle = None
+puzzle = [
+        [7,1,2],
+        [8,4, 3],
+        [' ',6,5]
+    ]
 
 def randomPosition():
     # decido dove è la casellina bianca
@@ -98,36 +105,46 @@ def nextPossiblePuzzles(puzzle, ie, je, history):
 def solvedPuzzle(puzzle):
     return hashPuzzle(puzzle) == '12345678 '
     
-def generateAllPossibleMoves(puzzles):
+def generateAllPossibleMoves(puzzle):
     history = set()
+    tree = Tree()
+    puzzles = [tree.add(puzzle, None)]
     moves = []
-    safety = -1
-    while len(puzzles) >0:
-        puzzle = puzzles[0]
+
+    safety = 40000
+    while len(puzzles) >0: 
+        puzzle = puzzles[0]     # current node
+        (ie, je) = findEmpty(puzzle.state)
+        
+        next_puzzles = nextPossiblePuzzles(puzzle.state, ie, je, history)
+        # test if we have found the solution
+        for p in next_puzzles:
+            child = tree.add(p, puzzle)
+            puzzles = puzzles + [child] # Questo determina se è un breeth search o un depth search
+
+            if solvedPuzzle(child.state):
+              
+                solution = child.getPath()
+                print(f"RISOLTO in iterazioni: {len(moves)}: {len(solution)} mosse!!!")
+
+                ## stampa la soluzione
+                for m in solution:
+                    printPuzzle(m.state)   
+                break  
+
+        moves.append(puzzle)
+        puzzles.remove(puzzle)
+        
         if safety == 0:
             break
         safety = safety - 1    
-        (ie, je) = findEmpty(puzzle)
-        
-        next_puzzles = nextPossiblePuzzles(puzzle, ie, je, history)
-        # test if we have found the solution
-        for p in next_puzzles:
-            if solvedPuzzle(p):
-                print(f"RISOLTO in {len(moves)}!!!")
-                moves.append(p)
-                printPuzzle(p);
-                return []
-                return moves
-              
-        moves.append(puzzle)
-        puzzles.remove(puzzle)
-        puzzles = puzzles + next_puzzles
         
     return moves
     
-puzzle = createRandomPuzzle()
+#puzzle = createRandomPuzzle()
 
-moves = generateAllPossibleMoves([puzzle])
+generateAllPossibleMoves(puzzle)
+
 '''
 print(f'moves found: {len(moves)}')
 for puzzle in moves:
