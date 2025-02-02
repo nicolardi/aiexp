@@ -1,0 +1,2 @@
+# aiexp
+Esperimenti di AI
