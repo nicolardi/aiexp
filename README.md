@@ -18,7 +18,7 @@ NOTE:
 puzzle8 cannot always be solved
 
 
-
+```
 Current puzzle to solve
 ---------
  1  2  3 
@@ -103,6 +103,6 @@ Search algorithm depth_first_search
 ---------
 SOLVED!!! 15 moves !!!
 Solution found with 4693 iterations
-
+```
 
 
