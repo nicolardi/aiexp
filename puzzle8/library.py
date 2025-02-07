@@ -65,7 +65,25 @@ def possibleMoves(puzzle, past_moves):
             nextPuzzles.append("".join(arr))
     return nextPuzzles
     
-def solve(puzzle):
+def addChild(puzzles, child, search_algorithm):
+    if search_algorithm == 'depth_first_search':
+        puzzles.append(child) # depth first search
+    elif search_algorithm == 'breadth_first_search':
+        puzzles.insert(0, child) # Breedth first search
+    else:
+        print(f'Search algorithm {search_algorithm} not implemented')
+    exit
+
+def getChild(puzzles):
+    return puzzles[0]
+
+def sortPuzzles(puzzles):
+    return puzzles
+
+'''
+search algorithms='depth_first_search', 'breadth_first_search', 'best_first_search'
+'''
+def solve(puzzle, search_algorithm='breadth_first_search'):
     iterations = 0
     past_moves = set()
     stop_iteration = False
@@ -74,7 +92,7 @@ def solve(puzzle):
     safety = MAX_ITERATIONS
 
     while len(puzzles) >0 and not stop_iteration: 
-        puzzle = puzzles[0]     # current node
+        puzzle = getChild(puzzles)  # current node
         # printPuzzle(puzzle.state)
         next_moves = possibleMoves(puzzle.state, past_moves)
         past_moves.update(next_moves)
@@ -83,9 +101,8 @@ def solve(puzzle):
         for p in next_moves:
             iterations = iterations + 1
             child = tree.add(p, puzzle)
-            puzzles.append(child) # Questo determina se è un breeth search o un depth search
-            #puzzles.insert(0, child)# Questo determina se è un breeth search o un depth search
-            
+            addChild(puzzles, child, search_algorithm)
+
             if child.state == '123456780':
                 solution = child.getPath()
                 
@@ -93,22 +110,31 @@ def solve(puzzle):
                 ## stampa la soluzione
                 for m in solution:
                     printPuzzle(m.state)   
-                print(f"RISOLTO!! {len(solution)} mosse !!!")
+                print(f"SOLVED!!! {len(solution)} moves !!!")
+                print(f"Solution found with {iterations} iterations")
                 stop_iteration = True
-       
+                return
+        sortPuzzles(puzzles)
         puzzles.remove(puzzle)
         
         if safety == 0:
             stop_iteration = True
 
         safety = safety - 1    
+    print('No solution found')
     print('iterations: ', iterations)
 
 
 if __name__ == '__main__':
-    # puzzle = "123405678"
-    puzzle = generateRandomPuzzle()
-    solve(puzzle)
+    puzzle = "123405678"
+    #puzzle = generateRandomPuzzle()
+   
+    print("Current puzzle to solve")
+    printPuzzle(puzzle)
+     # search algorithms='depth_first_search', 'breadth_first_search', 'best_first_search'
+    algo = 'depth_first_search'
+    print(f"Search algorithm {algo}")
+    solve(puzzle, algo)
     exit()
 
 #generateAllPossibleMoves(puzzle)
