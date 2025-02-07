@@ -4,6 +4,8 @@ Esperiments with AI
 
 /puzzle8 
 
+<img width="126" alt="puzzle 8 sample" src="https://github.com/user-attachments/assets/336fd34d-5a49-4b06-beae-aeaacc7c01cc" />
+
 python3 library.py
 
 library.py solves the puzzle8 (whenever possible) using one of two algorithms (others following)
