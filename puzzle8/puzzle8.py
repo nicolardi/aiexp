@@ -264,7 +264,6 @@ class Puzzle8:
 if __name__ == "__main__":
     print("PUZZLE 8 SOLVER - AI Search State Space algorithms\n")
     puzzle8 = Puzzle8("123405678")
-    puzzle8.solve("A*")
 
     # puzzle8 = Puzzle8()
     allowed_algorithms = puzzle8.allowed_algorithms
