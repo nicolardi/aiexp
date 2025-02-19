@@ -54,7 +54,7 @@ Class:
             solve(self, algo):
                 Solves the puzzle using the specified search algorithm.
 
-            hamming_distance(self, puzzle):
+            distance(self, puzzle):
                 Calculates the Hamming distance between the current puzzle state and the goal state.
 
 Usage:
@@ -75,6 +75,7 @@ class Puzzle8:
         "depth_first_search",
         "breadth_first_search",
         "best_first_search",
+        "A*",
     ]
 
     def __init__(self, puzzle=None):
@@ -163,32 +164,25 @@ class Puzzle8:
                 allowedMoves.append("".join(arr))
         return allowedMoves
 
-    # This method adds a child node to the list of puzzles to be visited based on the search algorithm
-
-    def addChildToPuzzleBySearchAlgorithm(self, puzzles, child, search_algorithm):
-        if search_algorithm == "depth_first_search":
-            puzzles.append(child)  # depth first search
-        elif search_algorithm == "breadth_first_search":
-            puzzles.insert(0, child)  # Breedth first search
-        else:
-            print(f"Search algorithm {search_algorithm} not implemented")
-        exit
-
     def getPath(self, puzzle, parents):
         curr = puzzle
-        path = [curr]
+        path = []
         while curr != None:
             path = [curr] + path
             curr = parents[curr]
         return path
 
-    def pushNextNodeToVisit(self, tovisit, puzzle, algo):
+    def pushNextNodeToVisit(self, tovisit, puzzle, algo, distance_type, costtoreach=0):
         if algo == "depth_first_search":
             tovisit.append(puzzle)
         elif algo == "breadth_first_search":
             tovisit.insert(0, puzzle)
         elif algo == "best_first_search":
-            heapq.heappush(tovisit, [self.hamming_distance(puzzle), puzzle])
+            heapq.heappush(tovisit, [self.distance(puzzle, distance_type), puzzle])
+        elif algo == "A*":
+            heapq.heappush(
+                tovisit, [self.distance(puzzle, distance_type) + costtoreach, puzzle]
+            )
         else:
             print(f"Algorithm {algo} not implemented")
             exit()
@@ -198,7 +192,7 @@ class Puzzle8:
             return tovisit.pop(0)
         elif algo == "breadth_first_search":
             return tovisit.pop(0)
-        elif algo == "best_first_search":
+        elif algo == "best_first_search" or algo == "A*":
             (cost, item) = heapq.heappop(tovisit)
             return item
         else:
@@ -209,16 +203,18 @@ class Puzzle8:
         for m in solution:
             print(self.printablePuzzle(m))
 
-    def solve(self, algo):
+    def solve(self, algo, distance_type="manhattan"):
         self.checkAlgorithm(algo)
         iterations = 0
         current = f"{self.puzzle}"
         parents = {}
+        costs = {}
 
         parents[self.puzzle] = None  # The parent of puzzle is None
+        costs[self.puzzle] = 1
         visited = set()
         tovisit = []
-        self.pushNextNodeToVisit(tovisit, self.puzzle, algo)
+        self.pushNextNodeToVisit(tovisit, self.puzzle, algo, distance_type)
 
         while len(tovisit) > 0:
             current = self.popNextNodeToVisit(tovisit, algo)
@@ -231,38 +227,56 @@ class Puzzle8:
                 iterations = iterations + 1
                 parents[child] = current  # sets the parent
 
-                hamming = self.hamming_distance(child)
+                hamming = self.distance(child, distance_type)
                 # is the child a solution?
                 if hamming == 0:
                     solution = self.getPath(child, parents)
                     print(
-                        f"\t -> Solution found in {len(solution)} moves with {iterations} iterations"
+                        f"\t -> Solution found in {len(solution) - 1} moves with {iterations} iterations. Visited nodes: {len(visited)}"
                     )
                     return solution
-                self.pushNextNodeToVisit(tovisit, child, algo)
+
+                self.pushNextNodeToVisit(
+                    tovisit, child, algo, distance_type, costs[current] + 1
+                )
+                costs[child] = costs[current] + 1
             visited.add(current)
 
         print("\t -> No solution found")
         return None
 
-    def hamming_distance(self, puzzle):
-        return sum(c1 != c2 for c1, c2 in zip(puzzle, self.goal))
+    def distance(self, puzzle, type):
+        if type == "hamming":
+            return sum(c1 != c2 for c1, c2 in zip(puzzle, self.goal))
+        if type == "manhattan":
+            distance = 0
+            for i in range(9):
+                pc = puzzle[i]
+                px = i % 3
+                py = i // 3
+                di = self.goal.index(pc)
+                dx = di % 3
+                dy = di // 3
+                distance += abs(px - dx) + abs(py - dy)
+            return distance
 
 
 if __name__ == "__main__":
     print("PUZZLE 8 SOLVER - AI Search State Space algorithms\n")
     puzzle8 = Puzzle8("123405678")
+    puzzle8.solve("A*")
+
+    # puzzle8 = Puzzle8()
     allowed_algorithms = puzzle8.allowed_algorithms
-    #  puzzle = "123405678"
-    # puzzle8.randomPuzzle()
     print("Current puzzle to solve:\n")
     print(puzzle8.printablePuzzle())
 
     solution = None
     for algo in allowed_algorithms:
         print(f"### Search algorithm {algo} ###")
-        solution = puzzle8.solve(algo)
+        solution = puzzle8.solve(algo, "manhattan")
         print()
+
     if solution:
         puzzle8.printSolution(solution)
     else:
