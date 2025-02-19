@@ -28,8 +28,13 @@ class TestPuzzle8(unittest.TestCase):
         self.assertCountEqual(moves, expected_moves)
 
     def test_hamming_distance(self):
-        self.assertEqual(self.puzzle.hamming_distance("123405678"), 5)
-        self.assertEqual(self.puzzle.hamming_distance("123456780"), 0)
+        self.assertEqual(self.puzzle.distance("123405678", "hamming"), 5)
+        self.assertEqual(self.puzzle.distance("123456780", "hamming"), 0)
+
+    def test_manhattan_distance(self):
+        self.assertEqual(self.puzzle.distance("123405678", "manhattan"), 8)
+        self.assertEqual(self.puzzle.distance("123456780", "manhattan"), 0)
+    
 
     def test_solve_breadth_first_search(self):
         solution = self.puzzle.solve("breadth_first_search")
