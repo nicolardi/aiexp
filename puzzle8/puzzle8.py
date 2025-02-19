@@ -1,5 +1,67 @@
 """
-8-Puzzle solver
+
+This module provides a class `Puzzle8` to solve the 8-puzzle problem using different search algorithms. The 8-puzzle is a sliding puzzle that consists of a 3x3 grid with 8 numbered tiles and one empty space. The goal is to rearrange the tiles to match a specified goal state.
+
+Class:
+    Puzzle8:
+        A class to represent and solve the 8-puzzle problem.
+
+        Attributes:
+            goal (str): The goal state of the puzzle.
+            allowed_algorithms (list): List of allowed search algorithms.
+            puzzle (str): The current state of the puzzle.
+
+        Methods:
+            __init__(self, puzzle=None):
+                Initializes the Puzzle8 instance with a given puzzle state or generates a random puzzle.
+
+            setPuzzle(self, puzzle):
+                Sets the puzzle to a given state.
+
+            randomPuzzle(self):
+                Generates a random puzzle state.
+
+            checkAlgorithm(self, algo):
+                Checks if the provided algorithm is allowed.
+
+            printAllowedAlgorithms(self):
+                Prints the list of allowed algorithms.
+
+            generateRandomPuzzle(self):
+                Generates a random puzzle state.
+
+            printablePuzzle(self, puzzle=None):
+                Returns a printable string representation of the puzzle.
+
+            getNextPossibleMoves(self, puzzle, past_moves):
+                Returns the possible moves given a puzzle state.
+
+            addChildToPuzzleBySearchAlgorithm(self, puzzles, child, search_algorithm):
+                Adds a child node to the list of puzzles to be visited based on the search algorithm.
+
+            getPath(self, puzzle, parents):
+                Returns the path from the initial state to the given puzzle state.
+
+            pushNextNodeToVisit(self, tovisit, puzzle, algo):
+                Pushes the next node to visit based on the search algorithm.
+
+            popNextNodeToVisit(self, tovisit, algo):
+                Pops the next node to visit based on the search algorithm.
+
+            printSolution(self, solution):
+                Prints the solution path.
+
+            solve(self, algo):
+                Solves the puzzle using the specified search algorithm.
+
+            hamming_distance(self, puzzle):
+                Calculates the Hamming distance between the current puzzle state and the goal state.
+
+Usage:
+    To use this library, create an instance of the `Puzzle8` class and call the `solve` method with the desired search algorithm. The allowed algorithms are "depth_first_search", "breadth_first_search", and "best_first_search". The solution path can be printed using the `printSolution` method.
+
+    Example:
+        solution = puzzle8.solve("breadth_first_search")
 """
 
 from random import shuffle
