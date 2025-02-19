@@ -1,23 +1,34 @@
-# aiexp
-Esperiments with AI
 
+# aiexp
+
+Experiments with AI
 
 <img width="126" alt="puzzle 8 sample" src="https://github.com/user-attachments/assets/336fd34d-5a49-4b06-beae-aeaacc7c01cc" />
 
-How to run it? 
+## How to Run
 
-cd puzzle8 
-
+```bash
+cd puzzle8
 python3 puzzle8.py
+```
 
-The puzzle8.py is able to solve the puzzle8 (whenever possible) using one of three algorithms:
+## Run Unit Tests
 
-search_algorithms='depth_first_search', 'breadth_first_search', 'best_first_search'
+```bash
+python3 puzzle8_test.py
+```
 
-The solve method returns the solution.
-You can print all the moves calling the "printTheSolution" method passing the returned solution
+# Details
 
-you will get something like this:
+The `puzzle8.py` script can solve the puzzle8 (whenever possible) using one of three algorithms:
+
+- `depth_first_search`
+- `breadth_first_search`
+- `best_first_search`
+
+The `solve` method returns the solution. You can print all the moves by calling the `printTheSolution` method with the returned solution.
+
+You will get something like this:
 
 ```
 PUZZLE 8 SOLVER - AI Search State Space algorithms
@@ -135,5 +146,3 @@ Current puzzle to solve:
  7  8  0 
 ---------
 ```
-
-
