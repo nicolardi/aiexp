@@ -6,7 +6,7 @@ Esperiments with AI
 
 How to run it? 
 
-cd /puzzle8 
+cd puzzle8 
 
 python3 puzzle8.py
 
