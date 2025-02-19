@@ -42,13 +42,16 @@ Current puzzle to solve:
 ---------
 
 ### Search algorithm depth_first_search ###
-         -> Solution found in 16 moves with 4923 iterations
+         -> Solution found in 14 moves with 4923 iterations. Visited nodes: 2937
 
 ### Search algorithm breadth_first_search ###
-         -> Solution found in 29974 moves with 52786 iterations
+         -> Solution found in 29972 moves with 52786 iterations. Visited nodes: 30772
 
 ### Search algorithm best_first_search ###
-         -> Solution found in 16 moves with 71 iterations
+         -> Solution found in 22 moves with 119 iterations. Visited nodes: 68
+
+### Search algorithm A* ###
+         -> Solution found in 14 moves with 189 iterations. Visited nodes: 110
 
 ---------
  1  2  3 
@@ -140,9 +143,4 @@ Current puzzle to solve:
  7  8  0 
 ---------
 
----------
- 1  2  3 
- 4  5  6 
- 7  8  0 
----------
 ```
