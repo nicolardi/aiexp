@@ -7,6 +7,7 @@ Esperiments with AI
 How to run it? 
 
 cd /puzzle8 
+
 python3 puzzle8.py
 
 The puzzle8.py is able to solve the puzzle8 (whenever possible) using one of three algorithms:
