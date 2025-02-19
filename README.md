@@ -3,6 +3,8 @@ Esperiments with AI
 
 cd /puzzle8 
 
+<img width="126" alt="puzzle 8 sample" src="https://github.com/user-attachments/assets/336fd34d-5a49-4b06-beae-aeaacc7c01cc" />
+
 python3 puzzle8.py
 
 The puzzle8.py is able to solve the puzzle8 (whenever possible) using one of three algorithms:
